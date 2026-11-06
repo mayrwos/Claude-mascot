@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' ipc: http://ipc.localhost">
+  <title>Claude Mascot</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="stage">
+    <div id="bubble" class="bubble hidden" role="status" aria-live="polite">
+      <div id="bubble-body"></div>
+    </div>
+
+    <div id="toolbar" class="toolbar hidden">
+      <button id="btn-open" class="tb-btn primary" type="button">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.3 4.1 4.2-1.6-2.6 3.6 3.6 2.4-4.4.2.6 4.3L8 11.2l-2.7 3.3.6-4.3-4.4-.2 3.6-2.4L2.5 4l4.2 1.6z"/></svg>
+        <span id="btn-open-label">Open Claude</span>
+      </button>
+      <button id="btn-hide" class="tb-btn" type="button">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8.5h12" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        <span id="btn-hide-label">Hide</span>
+      </button>
+    </div>
+
+    <canvas id="scene" width="320" height="240"></canvas>
+  </div>
+
+  <script src="bridge.js"></script>
+  <script src="../shared/layout.js"></script>
+  <script src="../shared/i18n.js"></script>
+  <script src="art.js"></script>
+  <script src="sfx.js"></script>
+  <script src="sessions.js"></script>
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

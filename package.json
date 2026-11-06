@@ -1,0 +1,31 @@
+{
+  "name": "claude-mascot",
+  "productName": "Claude Mascot",
+  "version": "1.3.0",
+  "description": "Desktop pet for Claude Code / Claude App on Windows: the orange pixel Claude Code mascot that lives on your screen and reacts to what Claude is doing. Native side in Rust (Tauri).",
+  "license": "MIT",
+  "author": "mayrwos",
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "icons": "node scripts/make-icons.js",
+    "preview": "node scripts/preview.js",
+    "demo": "node scripts/record-demo.js"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.12.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mayrwos/Claude-mascot.git"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "desktop-pet",
+    "mascot",
+    "tauri",
+    "rust",
+    "windows"
+  ]
+}

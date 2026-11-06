@@ -1,0 +1,248 @@
+:root {
+  color-scheme: dark;
+  --term-bg: #1a1918;
+  --term-border: rgba(255, 255, 255, 0.1);
+  --fg: #e8e6e1;
+  --dim: #8e8b84;
+  --orange: #d77757;
+  --orange-hi: #f6c3ae;
+  --violet: #8b5cf6;
+  --violet-hi: #ddd3ff;
+  --amber: #e5b453;
+  --green: #5fbf72;
+  --red: #e26464;
+  --panel: #262624;
+  --font: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --mono: "Cascadia Mono", "Cascadia Code", Consolas, "SF Mono", Menlo, ui-monospace, monospace, "Segoe UI Symbol", "Segoe UI Emoji";
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  font-family: var(--font);
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+}
+
+#stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#scene {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.bubble {
+  position: absolute;
+  left: 50%;
+  bottom: 160px;
+  transform: translateX(-50%);
+  max-width: calc(100% - 16px);
+  width: max-content;
+  padding: 7px 11px;
+  border-radius: 10px;
+  background: var(--term-bg);
+  color: var(--fg);
+  border: 1px solid var(--term-border);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.3);
+  font: 12px/1.45 var(--mono);
+  animation: pop 180ms cubic-bezier(0.2, 1.4, 0.4, 1);
+  transform-origin: 50% 100%;
+  transition: bottom 220ms cubic-bezier(0.3, 1.3, 0.5, 1);
+  cursor: pointer;
+  z-index: 3;
+}
+
+.bubble::after {
+  content: "";
+  position: absolute;
+  left: calc(50% + var(--tail, 0px));
+  bottom: -6px;
+  width: 10px;
+  height: 10px;
+  background: var(--term-bg);
+  border-right: 1px solid var(--term-border);
+  border-bottom: 1px solid var(--term-border);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.bubble.hidden { display: none; }
+
+.bubble.attention {
+  border-color: rgba(229, 180, 83, 0.6);
+  box-shadow: 0 0 0 2px rgba(229, 180, 83, 0.18), 0 8px 22px rgba(0, 0, 0, 0.35);
+  animation: pop 180ms cubic-bezier(0.2, 1.4, 0.4, 1), nudge 1.8s ease-in-out 0.2s infinite;
+}
+
+.bubble.ultra-mode {
+  border-color: rgba(139, 92, 246, 0.55);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2), 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+.speech { max-width: 250px; text-wrap: pretty; }
+
+.line {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  white-space: nowrap;
+  max-width: 276px;
+}
+
+.line + .line { margin-top: 2px; }
+
+.line .glyph {
+  flex: none;
+  width: 12px;
+  text-align: center;
+  color: var(--orange);
+}
+
+.line .label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.line .label b { font-weight: 700; color: var(--fg); }
+
+.dim { color: var(--dim); }
+
+.line .proj {
+  flex: none;
+  margin-left: auto;
+  padding-left: 10px;
+  color: var(--dim);
+  font-size: 11px;
+  max-width: 96px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shimmer {
+  background: linear-gradient(90deg, var(--orange) 0%, var(--orange) 38%, var(--orange-hi) 50%, var(--orange) 62%, var(--orange) 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: sweep 2.2s steps(24) infinite;
+}
+
+.st-spin .label { color: var(--orange); }
+
+.glyph.dot { font-size: 10px; }
+.st-work .glyph.dot { color: var(--fg); animation: blink 1s steps(2, start) infinite; }
+.st-wait .glyph.dot { color: var(--amber); }
+.st-ask .glyph,
+.st-ask .label { color: var(--amber); }
+.st-done .glyph { color: var(--orange); }
+.st-done .label { color: var(--dim); }
+.st-error .glyph,
+.st-error .label { color: var(--red); }
+
+.more { margin-top: 2px; color: var(--dim); font-size: 11px; padding-left: 19px; }
+
+.ultra {
+  display: inline-block;
+  font-weight: 800;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  background: linear-gradient(90deg, #6d28d9, var(--violet), #c4b5fd, var(--violet), #6d28d9);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 1.8s steps(18) infinite;
+}
+
+.bubble.ultra-mode .glyph.spin { color: var(--violet); }
+.bubble.ultra-mode .st-spin .label { color: var(--violet); }
+.bubble.ultra-mode .shimmer {
+  background-image: linear-gradient(90deg, var(--violet) 0%, var(--violet) 38%, var(--violet-hi) 50%, var(--violet) 62%, var(--violet) 100%);
+}
+
+.toolbar {
+  position: absolute;
+  left: 50%;
+  top: 100px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--term-bg);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35), inset 0 0 0 1px var(--term-border);
+  transition: opacity 140ms ease, transform 140ms ease;
+  z-index: 4;
+}
+
+.toolbar.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(4px);
+}
+
+.tb-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 11px 0 9px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg);
+  font: 600 12px/1 var(--mono);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tb-btn svg { width: 13px; height: 13px; fill: currentColor; stroke: currentColor; }
+.tb-btn:hover { background: rgba(255, 255, 255, 0.1); }
+.tb-btn:active { transform: translateY(1px); }
+.tb-btn.primary { background: var(--orange); color: #fff; }
+.tb-btn.primary:hover { background: #e2876a; }
+.tb-btn:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+
+@keyframes pop {
+  from { opacity: 0; transform: translateX(-50%) scale(0.85); }
+  to { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+
+@keyframes nudge {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-3px); }
+}
+
+@keyframes sweep {
+  from { background-position: 100% 0; }
+  to { background-position: 0% 0; }
+}
+
+@keyframes blink {
+  to { visibility: hidden; }
+}
+
+@keyframes shimmer {
+  from { background-position: 0% 0; }
+  to { background-position: 200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bubble, .bubble.attention, .shimmer, .ultra, .glyph.dot { animation: none !important; }
+  .shimmer { color: var(--orange); background: none; }
+}
